@@ -1,0 +1,13 @@
+grpc:
+  server:
+    host: "localhost"
+    port: "50051"
+  client:
+    host: "localhost"
+    port: "50051"
+db:
+  user: "admin"
+  password: "QWEqwe11dd"
+  host: "167.99.217.70"
+  port: "5432"
+  db_name: "dev_robot"

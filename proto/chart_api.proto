@@ -1,0 +1,134 @@
+syntax = "proto3";
+
+package chart_api;
+
+option go_package = "chart_api/internal/proto;proto";
+
+message GetAlgosRequest {}
+
+message GetAlgosResponse {
+  repeated string algos = 1;
+}
+
+message GetStreamsByAlgoRequest {
+  string algo = 1;
+}
+
+message IndicatorParam {
+  string type = 1;
+  map<string, double> param = 2;
+}
+
+message StreamData {
+  int32 id = 1;
+  string user = 2;
+  string coin = 3;
+  string coin_second = 4;
+  string timeframe = 5;
+  string algo = 6;
+  int32 price_decimal = 7;
+  int32 size_decimal = 8;
+  repeated IndicatorParam indicator_param = 9;
+}
+
+message GetStreamsByAlgoResponse {
+  repeated StreamData streams = 1;
+}
+
+message GetDataRequest {
+    int32 id = 1;
+    int64 from_timestamp = 2;
+    int32 limit = 3;
+}
+
+message DataPoint {
+    int32 id = 1;
+    string time = 2;
+    string timestamp = 3;
+    double open = 4;
+    double high = 5;
+    double low = 6;
+    double close = 7;
+    double volume = 8;
+    repeated Indicator indicators = 9;
+}
+
+message Indicator {
+    string type = 1;
+    string name = 2;
+    map<string, double> param = 3;
+    repeated Volume volume = 4;
+}
+
+message Volume {
+    map<string, double> params = 1;
+}
+
+message GetDataResponse {
+    repeated DataPoint data = 1;
+}
+
+message GetLogsRequest {
+    int32 id = 1;
+    int64 from_timestamp = 2;
+    bool orders_only = 3;
+    int32 limit = 4;
+}
+
+message LogEntry {
+    string time = 2;
+    string timestamp = 3;
+    string algo = 6;
+    string timeframe = 8;
+    int32 block_id = 10;
+    string block_name = 11;
+    string indicator_param = 12;
+    string vars = 13;
+    double close = 14;
+    double balance = 15;
+    double equity = 16;
+    double money = 17;
+    string side = 18;
+    double order_leverage_long = 19;
+    double leverage_long = 20;
+    double order_size_long = 21;
+    double order_price_long = 22;
+    double order_usd_long = 23;
+    string order_type_long = 24;
+    double position_size_long = 25;
+    double position_price_long = 26;
+    double position_usd_long = 27;
+    double pnl_long = 28;
+    double fee_long = 29;
+    double funding_long = 30;
+    double rpl_long = 31;
+    double order_leverage_short = 32;
+    double leverage_short = 33;
+    double order_size_short = 34;
+    double order_price_short = 35;
+    double order_usd_short = 36;
+    string order_type_short = 37;
+    double position_usd_short = 38;
+    double position_size_short = 39;
+    double position_price_short = 40;
+    double pnl_short = 41;
+    double fee_short = 42;
+    double funding_short = 43;
+    double rpl_short = 44;
+    string user = 45;
+    string mode = 46;
+    string mode_time = 47;
+    string coin = 48;
+    string coin_second = 49;
+}
+
+message GetLogsResponse {
+    repeated LogEntry logs = 1;
+}
+
+service ChartAPI {
+  rpc GetAlgos (GetAlgosRequest) returns (GetAlgosResponse) {}
+  rpc GetStreamsByAlgo (GetStreamsByAlgoRequest) returns (GetStreamsByAlgoResponse) {}
+  rpc GetData (GetDataRequest) returns (GetDataResponse) {}
+  rpc GetLogs (GetLogsRequest) returns (GetLogsResponse) {}
+}
